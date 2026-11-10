@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16
+    container_name: vanish-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vanish
+      POSTGRES_USER: vanish
+      POSTGRES_PASSWORD: vanish_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - vanish_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vanish -d vanish"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  vanish_pgdata:
